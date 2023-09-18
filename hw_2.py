@@ -51,24 +51,31 @@ for name in name_list:
 
 # E4
 # Write a python script that accepts a string to setup a passwords.
+# E4
+# Write a python script that accepts a string to setup a passwords.
 # this answer is not correct - revisit
+
 pw = input("Please enter a password (8 characters minimum - 1 uppercase, 1 lowercase, 1 digit:")
 
-conditions = 0
+upper = 0
+lower = 0
+digit = 0
+length = 0
+
 for p in pw:
     if p.isupper():
-        conditions += 1
+        upper += 1
     elif p.islower():
-        conditions += 1
+        lower += 1
     elif p.isdigit():
-        conditions += 1
+        digit += 1
     elif len(pw) >= 8:
-        conditions += 1
+        length += 1
 
-if conditions < 4:
-    print("Password rejected.")
-else:
+if upper >= 1 and lower >= 1 and digit >= 1 and length >= 1:
     print("Great password!")
+else:
+    print("Password rejected.")
 
 # E5
 # Write a python script that reads a given string character by character and count the repeated
