@@ -121,5 +121,41 @@ print(nltk.help.upenn_tagset('DT'))
 print(nltk.help.upenn_tagset('JJ'))
 print(nltk.help.upenn_tagset('RB'))
 
+# E2
+from urllib import request
+from bs4 import BeautifulSoup
 
+#grab and decode html
+url = "https://en.wikipedia.org/wiki/Benjamin_Franklin"
+html = request.urlopen(url).read().decode('utf8')
+#print(html[:60])
+#print(html)
+#clean html
+raw = BeautifulSoup(html, 'html.parser').get_text()
+#tokenize html
+website_tokens = word_tokenize(raw)
 
+#define function to check if words in a corpus do not appear in Words Corpus and makes a list of them
+
+def unknown(text):
+    text_vocab = set(w.lower() for w in text if w.isalpha())
+    english_vocab = set(w.lower() for w in nltk.corpus.words.words())
+    novel = text_vocab - english_vocab
+    return sorted(novel)
+
+#applying function to scraped, tokenized html
+#print("words from website that don't appear in Words Corpus are:", unknown(website_tokens))
+novel_words = unknown(website_tokens)
+#Use porter stemmer to stem all items in novel_words, saving result as novel-stems
+porter = nltk.PorterStemmer()
+novel_stems = ([porter.stem(n) for n in novel_words])
+
+#Find as many proper names from novel-stems as possible, saving the result as proper_names
+
+text_vocab = set(w.lower() for w in novel_stems if w.isalpha())
+names_vocab = set(w.lower() for w in nltk.corpus.names.words())
+proper_names = (sorted([w for w in names_vocab if w in text_vocab]))
+
+print("proper names found in novel stems are:", proper_names)
+
+# E3
