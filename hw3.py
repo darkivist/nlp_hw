@@ -82,6 +82,9 @@ print("length of longest token is:",longest_len,"characters")
 longest_token = [x for x in set(tokens) if len(x) >= longest_len]
 print("the longest word in the text is:", longest_token)
 
+#What unique words have a frequency of more than 2000? What is their frequency?
+#COME BACK TO THIS
+
 #more_tokens = [x for x in set(tokens) if c[x] > 2000]
 #print(more_tokens)
 Freq_Dist_1 = FreqDist(x for x in set(tokens) if c[x] > 2000)
@@ -92,6 +95,31 @@ print(c)
 #Freq_Dist.hapaxes()
 #Once_happend= Freq_Dist.hapaxes() ; print(Once_happend)
 
+#average tokens per sentence
+#source: https://stackoverflow.com/questions/42144071/counting-avg-number-of-words-per-sentence
+sentences = [[]]
+ends = set(".?!")
+for token in tokens:
+    if token in ends: sentences.append([])
+    else: sentences[-1].append(token)
+
+if sentences[0]:
+    if not sentences[-1]: sentences.pop()
+    print("average tokens per sentence:", sum(len(s) for s in sentences)/len(sentences))
+
+#5 most frequent parts of speech in corpus
+
+#combine pos with freq_dist
+
+pos_list = nltk.pos_tag(tokens)
+pos_counts = nltk.FreqDist(tag for (word, tag) in pos_list)
+print("the six most common parts of speech tags in the corpus are", pos_counts.most_common(6))
+print("the five most common parts of speech in the text are:")
+print(nltk.help.upenn_tagset('NN'))
+print(nltk.help.upenn_tagset('IN'))
+print(nltk.help.upenn_tagset('DT'))
+print(nltk.help.upenn_tagset('JJ'))
+print(nltk.help.upenn_tagset('RB'))
 
 
 
