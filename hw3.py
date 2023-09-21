@@ -6,7 +6,7 @@
 # E1
 
 import nltk
-from nltk import word_tokenize
+from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import wordnet
 
 # load moby.txt
@@ -24,7 +24,6 @@ print("total unique tokens:", (len(set(tokens))))
 # tag verb tokens with part of speech
 wnl = nltk.WordNetLemmatizer()
 
-
 # source: https://www.geeksforgeeks.org/python-lemmatization-approaches-with-examples/
 
 def pos_tagger(nltk_tag):
@@ -32,7 +31,6 @@ def pos_tagger(nltk_tag):
         return wordnet.VERB
     else:
         return None
-
 
 tagged = nltk.pos_tag(tokens)
 wordnet_tagged = list(map(lambda x: (x[0], pos_tagger(x[1])), tagged))
@@ -159,3 +157,29 @@ proper_names = (sorted([w for w in names_vocab if w in text_vocab]))
 print("proper names found in novel stems are:", proper_names)
 
 # E3
+#load  data and view  first few sentences.
+textfile = open('twitter.txt', "r")
+print(textfile.readlines()[0:5])
+textfile.seek(0)
+
+#split data into sentences with '\n' as delimiter
+data = str(textfile.read().split('\n'))
+
+#tokenize sentences
+tokenized_tweets = sent_tokenize(data)
+#^^^ still need to convert to lowercase
+
+#print(tokenized_tweets)
+
+#now tokenize words
+tokenized_words = word_tokenize(data)
+#print(tokenized_words)
+
+
+#count how many times each word appears
+from collections import defaultdict
+
+count = defaultdict(int)
+for word in tokenized_words:
+    count[word] += 1
+print(count)
