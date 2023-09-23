@@ -415,6 +415,20 @@ print(20 * '-' + 'End Q10' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q11' + 20 * '-')
 
+from urllib import request
+from bs4 import BeautifulSoup
+
+#grab and decode html
+url = "https://www.mcsweeneys.net/articles/welcome-to-rosalitas-boarding-house-for-girls-and-women-rescued-by-bruce-springsteen-from-dead-end-small-towns"
+
+def decode_html(url):
+    html = request.urlopen(url).read().decode('utf8')
+    raw = BeautifulSoup(html, 'html.parser').get_text()
+    return raw
+
+print(decode_html(url))
+
+
 print(20 * '-' + 'End Q11' + 20 * '-')
 # =================================================================
 # Class_Ex12:
@@ -427,14 +441,40 @@ print(20 * '-' + 'End Q11' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q12' + 20 * '-')
 
+from nltk.book import text6
+
+#startswith
+
+wh=[]
+for word in text6:
+    if word.startswith("wh"):
+        wh.append(word)
+
+wh.sort()
+print(wh)
+
 print(20 * '-' + 'End Q12' + 20 * '-')
 # =================================================================
 # Class_Ex13:
-# Write code to access a  webpage and extract some text from it.
+# Write code to access a webpage and extract some text from it.
 # For example, access a weather site and extract  a feels like temprature..
 # Note use the following site https://darksky.net/forecast/40.7127,-74.0059/us12/en
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q13' + 20 * '-')
+from nltk import word_tokenize
+url = "https://darksky.net/forecast/40.7127,-74.0059/us12/en"
+#this link is outdated, oh well
+
+def decode_html(url):
+    html = request.urlopen(url).read().decode('utf8')
+    raw = BeautifulSoup(html, 'html.parser').get_text()
+    tokens = word_tokenize(raw)
+    text = nltk.Text(tokens)
+    return text
+
+text = decode_html(url)
+
+print(text.concordance('Feels'))
 
 print(20 * '-' + 'End Q13' + 20 * '-')
 # =================================================================
