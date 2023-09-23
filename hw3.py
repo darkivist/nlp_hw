@@ -485,6 +485,16 @@ print(20 * '-' + 'End Q13' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q14' + 20 * '-')
 
+brown_tagged_sents = brown.tagged_sents(categories='news')
+brown_sents = brown.sents(categories='news')
+bigram_tagger = nltk.BigramTagger(brown_tagged_sents)
+
+size = int(len(brown_tagged_sents) * 0.9)
+train_sents = brown_tagged_sents[:size]
+test_sents = brown_tagged_sents[size:]
+bigrams = nltk.BigramTagger(train_sents)
+print(bigram_tagger.evaluate(test_sents))
+
 print(20 * '-' + 'End Q14' + 20 * '-')
 
 # =================================================================
@@ -503,3 +513,4 @@ print(20 * '-' + 'End Q15' + 20 * '-')
 print(20 * '-' + 'Begin Q16' + 20 * '-')
 
 print(20 * '-' + 'End Q16' + 20 * '-')
+
