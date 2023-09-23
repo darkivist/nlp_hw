@@ -397,6 +397,15 @@ print(20 * '-' + 'End Q9' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q10' + 20 * '-')
 
+cfd = nltk.ConditionalFreqDist((genre, word)
+            for genre in brown.categories()
+            for word in brown.words(categories=genre))
+genres = ['adventure', 'humor', 'lore', 'science_fiction', 'romance', 'learned']
+common_words = ['planet', 'blood', 'love', 'idol', 'silly', 'repeat']
+print(); print(cfd.tabulate(conditions=genres, samples=common_words))
+
+#add thoughts here
+
 print(20 * '-' + 'End Q10' + 20 * '-')
 # =================================================================
 # Class_Ex11:
