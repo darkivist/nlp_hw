@@ -322,6 +322,8 @@ print(len(entries))
 
 #find words with more than one pronounciation
 #this is not correct
+#source: https://www.kaggle.com/code/honeysingh/predicting-english-pronunciations
+
 p3 = []
 for word in entries.items():
     if word[-1] == ')' and word[-3] == '(' and word[-2].isdigit():
