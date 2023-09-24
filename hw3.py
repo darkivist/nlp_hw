@@ -346,7 +346,7 @@ for noun in nouns:
     if not noun.hyponyms():
         nouns_without_hyponyms.append(noun)
 
-#print(nouns_without_hyponyms)
+print(nouns_without_hyponyms)
 
 
 print(20 * '-' + 'End Q7' + 20 * '-')
