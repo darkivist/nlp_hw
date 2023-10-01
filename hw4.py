@@ -373,6 +373,19 @@ print(20 * '-' + 'End Q12' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q13' + 20 * '-')
 
+import json
+
+#load tweets data
+with open("tweets.json", "r") as json_file:
+    data = json.load(json_file)
+    text = ' '.join(data)
+
+doc = nlp(text)
+
+#find named entities
+for ent in doc.ents:
+    print(ent.text, ent.label_)
+
 print(20 * '-' + 'End Q13' + 20 * '-')
 # =================================================================
 # Class_Ex14:
