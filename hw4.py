@@ -128,6 +128,11 @@ print(doc1.similarity(doc2))
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q1' + 20 * '-')
 
+import spacy
+nlp = spacy.load("en_core_web_sm")
+doc = nlp("This is a simple example to initiate spacy")
+print(doc)
+
 print(20 * '-' + 'End Q1' + 20 * '-')
 # =================================================================
 # Class_Ex2:
@@ -136,12 +141,23 @@ print(20 * '-' + 'End Q1' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q2' + 20 * '-')
 
+#import german spacy model
+#nlp = spacy.load("de_core_news_sm")
+#doc = nlp("Stanley Kubrick war ein US-amerikanischer Regisseur, Produzent, Drehbuchautor und Fotograf.")
+#print(doc)
+
 print(20 * '-' + 'End Q2' + 20 * '-')
 # =================================================================
 # Class_Ex3:
 # Tokenize a sentence using sapaCy.
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q3' + 20 * '-')
+
+nlp = spacy.load("en_core_web_sm")
+doc = nlp("This is a simple example to initiate spacy")
+
+for token in doc:
+    print(token.text)
 
 print(20 * '-' + 'End Q3' + 20 * '-')
 # =================================================================
@@ -155,6 +171,29 @@ print(20 * '-' + 'End Q3' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q4' + 20 * '-')
 
+from spacy.matcher import Matcher
+
+matcher = Matcher(nlp.vocab)
+
+digit_pattern = [{"IS_DIGIT": True}]
+matcher.add("DIGIT_PATTERN", [digit_pattern])
+
+website_pattern = [{"like_url": True}]
+matcher.add("WEBSITE_PATTERN", [website_pattern])
+
+percentage_pattern = [{"IS_DIGIT": True}, {"LOWER": "%"}]
+matcher.add("PERCENTAGE_PATTERN", [percentage_pattern])
+
+doc = nlp("In 2020, more than 15% of people in World got sick from a pandemic ( www.google.com ). Now it is less than 1% are. Reference ( www.yahoo.com )")
+
+matches = matcher(doc)
+
+for match_id, start, end in matches:
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
+#print("there are 2 urls in the text")
+
 print(20 * '-' + 'End Q4' + 20 * '-')
 # =================================================================
 # Class_Ex5:
@@ -166,6 +205,17 @@ print(20 * '-' + 'End Q4' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q5' + 20 * '-')
 
+nlp = spacy.load("en_core_web_sm")
+import pandas as pd
+
+doc = nlp("It is shown that: Google was not the first search engine in U.S. tec company. The value of google is 100 billion dollar")
+
+attrs = ['text', 'pos_', 'tag_', 'dep_']
+rows = [[token.text, token.pos_, token.tag_, token.dep_] for token in doc]
+
+df_attrs = pd.DataFrame(rows, columns=attrs)
+print(df_attrs)
+
 print(20 * '-' + 'End Q5' + 20 * '-')
 
 # =================================================================
@@ -174,6 +224,9 @@ print(20 * '-' + 'End Q5' + 20 * '-')
 
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q6' + 20 * '-')
+
+for ent in doc.ents:
+    print(ent.text, ent.label_)
 
 print(20 * '-' + 'End Q6' + 20 * '-')
 # =================================================================
@@ -184,6 +237,21 @@ print(20 * '-' + 'End Q6' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q7' + 20 * '-')
 
+matcher = Matcher(nlp.vocab)
+
+noun_pattern = [{"POS": "NOUN"}]
+matcher.add("NOUN_PATTERN", [noun_pattern])
+
+adjective_pattern = [{"POS": "ADJ"}]
+matcher.add("ADJECTIVE_PATTERN", [adjective_pattern])
+
+doc = nlp("Features of the iphone applications include a beautiful design, smart search, automatic labels and optional voice responses.")
+matches = matcher(doc)
+
+for match_id, start, end in matches:
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
 print(20 * '-' + 'End Q7' + 20 * '-')
 # =================================================================
 # Class_Ex8:
@@ -193,6 +261,28 @@ print(20 * '-' + 'End Q7' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q8' + 20 * '-')
 
+# process the sentence
+doc = nlp("I have a cat")
+
+# access the vocab object
+vocab = nlp.vocab
+
+# find hash ID for "cat"
+word = "cat"
+lexeme = vocab[word]
+
+# get hash id
+hash_id = lexeme.orth
+
+# print hash id
+print(f"Hash ID for '{word}': {hash_id}")
+
+# use  hash id to find word
+found_word = vocab[hash_id].text
+
+# Print the word
+print(f"Word associated with hash ID {hash_id}: {found_word}")
+
 print(20 * '-' + 'End Q8' + 20 * '-')
 # =================================================================
 # Class_Ex9:
@@ -201,6 +291,10 @@ print(20 * '-' + 'End Q8' + 20 * '-')
 # Use the methods like text, token,... on the Doc and check the functionality.
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q9' + 20 * '-')
+
+doc = nlp("Spacy is a nice toolkit.")
+
+print([(token.text, token.dep_, token.head.text, token.head.pos_, [child for child in token.children]) for token in doc])
 
 print(20 * '-' + 'End Q9' + 20 * '-')
 # =================================================================
@@ -212,6 +306,14 @@ print(20 * '-' + 'End Q9' + 20 * '-')
 
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q10' + 20 * '-')
+
+doc = nlp("New York looks like a nice city.")
+
+for token in doc:
+    print(token.text, token.pos_)
+
+#New and York are proper nouns, looks is a verb
+#how to get it to read "new york" as one noun?
 
 print(20 * '-' + 'End Q10' + 20 * '-')
 # =================================================================
@@ -226,8 +328,7 @@ print(20 * '-' + 'Begin Q11' + 20 * '-')
 import spacy
 import json
 nlp = spacy.load("en_core_web_sm")
-text = "Czech Republic may help Slovakia protect its airspace"
-doc = nlp(text)
+doc = nlp("Czech Republic may help Britain protect its airspace")
 countries = []
 
 for ent in doc.ents:
@@ -249,6 +350,20 @@ print(20 * '-' + 'End Q11' + 20 * '-')
 # Process the text and print the results.
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q12' + 20 * '-')
+
+#define  getter function
+def getter(token):
+    return token.text[::-1]
+
+#add "reversed" property extension to token class
+spacy.tokens.Token.set_extension("reversed", getter=getter)
+
+#add doc
+doc = nlp("Grad school sucks.")
+
+#iterate through tokens and print reversed text
+for token in doc:
+    print(f"Token: {token.text}, Reversed: {token._.reversed}")
 
 print(20 * '-' + 'End Q12' + 20 * '-')
 # =================================================================
