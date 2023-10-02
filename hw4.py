@@ -325,21 +325,29 @@ print(20 * '-' + 'End Q10' + 20 * '-')
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q11' + 20 * '-')
 
-import spacy
 import json
 nlp = spacy.load("en_core_web_sm")
-doc = nlp("Czech Republic may help Britain protect its airspace")
-countries = []
+doc = nlp("Czech Republic may help Slovakia protect its airspace")
+
+######## Rule-Based Method
+
+#load countries data
+with open("countries.json", "r") as json_file:
+    countries = json.load(json_file)
+
+ent_countries = []
 
 for ent in doc.ents:
-    if ent.label_ == "GPE":
-        countries.append(ent.text)
+    if ent.text in countries:
+        ent_countries.append(ent.text)
 
-result = {"countries": countries}
+print(ent_countries)
 
-json_result = json.dumps(result)
+######## Statistics-Based Method
 
-print(json_result)
+for ent in doc.ents:
+    if ent.label_ == 'GPE':
+        print(ent.text)
 
 print(20 * '-' + 'End Q11' + 20 * '-')
 # =================================================================
@@ -395,6 +403,11 @@ print(20 * '-' + 'End Q13' + 20 * '-')
 # Disable parser and tagger and process the text. Print the tokens
 # ----------------------------------------------------------------
 print(20 * '-' + 'Begin Q14' + 20 * '-')
+
+doc = nlp('Burger King is an American fast food restaurant chain')
+with nlp.disable_pipes("tagger", "parser"):
+    for token in doc:
+        print(token)
 
 print(20 * '-' + 'End Q14' + 20 * '-')
 
